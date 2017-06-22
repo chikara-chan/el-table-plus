@@ -1,13 +1,7 @@
-import ElTablePlus from './components/el-table-plus.vue';
+import ElTablePlus from './components/el-table-plus';
 
-const VueElTablePlus = {
+export default {
   install(Vue) {
     Vue.component('el-table-plus', ElTablePlus);
   }
 };
-
-if (typeof window !== 'undefined' && typeof window.Vue !== 'undefined') {
-  window.Vue.use(VueElTablePlus);
-}
-
-export default VueElTablePlus;

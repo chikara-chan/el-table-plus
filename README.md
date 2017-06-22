@@ -18,9 +18,17 @@ A high-level table component, integrating el-table and el-pagination of Element 
 - 组件内部维护数据源与分页
 - 仅支持远程排序
 
+## Quick Start
+
+``` js
+import ElTablePlus from 'el-table-plus';
+
+Vue.use(ElTablePlus);
+```
+
 ## API
 
-#### Table Attributes
+### Table Attributes
 
 参数 | 说明 | 类型 | 默认值 | 返回类型
 --- | --- | --- | --- | ---
@@ -36,20 +44,22 @@ current-change-async | 异步页码变化触发事件，需返回一个Object包
 --- | --- | ---
 render-body | 自定义渲染表格体单元 | Function(h, row)
 
-#### Table Events
+### Table Events
 
 事件名 | 说明 | 参数
 --- | --- | ---
 filter-change | 当表格的筛选条件发生变化的时候会触发该事件，参数的值是一个对象，对象的 key 是 column 的 columnKey，对应的 value 为用户选择的筛选条件的数组 | filters
 sort-change | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order }
 
-#### Table Methods
+### Table Methods
 
 方法名 | 说明 | 参数
 --- | --- | ---
 reload | 调用 current-change-async 事件并重置表格从第 1 页开始 |
 
 ## Example
+
+**html**
 
 ``` html
 <el-form :model="form" inline>
@@ -66,8 +76,10 @@ reload | 调用 current-change-async 事件并重置表格从第 1 页开始 |
 </div>
 ```
 
+**js**
+
 ``` js
-// 在 vue 文件使用 jsx 语法需在 script 标签 type="text/jsx"
+// Notice: 在 vue 文件使用 jsx 语法需在 script 标签添加 type="text/jsx"
 export default {
   data() {
     return {
