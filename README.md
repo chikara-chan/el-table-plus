@@ -32,7 +32,7 @@ Vue.use(ElTablePlus);
 
 参数 | 说明 | 类型 | 默认值 | 返回类型
 --- | --- | --- | --- | ---
-columns | 列属性，详见子章节 Table Attributes - column | Array(Object) | | |
+columns | 列属性，详见子章节 Table Attributes - column | Array[Object] | | |
 page-size | 每页大小 | Number | 20 | |
 current-change-async | 异步页码变化触发事件，需返回一个Object包含data和total两个key | Async Function(currentPage, pageSize) | | Object({data, total})
 
