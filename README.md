@@ -145,7 +145,7 @@ export default {
       this.$refs.table.reload();
     },
     async handleCurrentChangeAsync(currentPage, pageSize) {
-      const res = await getKnightList({
+      const res = await getYourAjaxData({
         ...this.form,
         page_now: currentPage,
         page_size: pageSize
