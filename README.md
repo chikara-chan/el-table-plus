@@ -20,6 +20,10 @@ A high-level table component, integrating el-table and el-pagination of Element 
 
 ## Quick Start
 
+``` bash
+$ npm install --save el-table-plus
+```
+
 ``` js
 import ElTablePlus from 'el-table-plus';
 
