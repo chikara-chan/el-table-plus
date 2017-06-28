@@ -42,32 +42,40 @@ export default {
   render(h) {
     return (
       <div class="el-table-plus">
-        <el-table data={this.data} v-loading={this.loading}
-          on-filter-change={(...args) => this.$emit('filter-change', ...args)}
+        <el-table
+          data={this.data} v-loading={this.loading} on-filter-change={(...args) => this.$emit('filter-change', ...args)}
           on-sort-change={(...args) => this.$emit('sort-change', ...args)}>
           {
-            this.columns.map(column =>
-              column.renderBody ? (
-                <el-table-column {...{props: column}} scopedSlots={
-                  {
-                    default({row}) {
-                      return column.renderBody(h, row);
-                    }
-                  }
-                }>
-                </el-table-column>
-              ) : (
-                <el-table-column {...{props: column}}></el-table-column>
-              )
-            )
+            this.columns.map(column => {
+              const nextColumn = {
+                ...column,
+                formatter: column.formatter && (row => column.formatter(row[column.prop]))
+              };
+
+              return nextColumn.renderBody
+                ? (
+                  <el-table-column
+                    {...{props: nextColumn}}
+                    scopedSlots={
+                      {
+                        default({row}) {
+                          return nextColumn.renderBody(h, row);
+                        }
+                      }
+                    }>
+                  </el-table-column>
+                ) : (
+                  <el-table-column  {...{props: nextColumn}}>
+                  </el-table-column>
+                );
+            })
           }
         </el-table>
-        <el-pagination current-page={this.currentPage} page-size={this.pageSize}
-          total={this.total} on-current-change={this.handleCurrentChange}
-          layout="total, prev, pager, next">
+        <el-pagination
+          current-page={this.currentPage} page-size={this.pageSize} total={this.total}
+          on-current-change={this.handleCurrentChange} layout="total, prev, pager, next">
         </el-pagination>
       </div>
     );
   }
 };
-

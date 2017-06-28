@@ -109,7 +109,7 @@ export default {
         {
           label: '格式化列',
           prop: 'status',
-          formatter({status}) {
+          formatter(status) {
             return {
               1: '有效',
               0: '无效',
