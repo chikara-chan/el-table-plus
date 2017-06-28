@@ -65,7 +65,7 @@ export default {
                     }>
                   </el-table-column>
                 ) : (
-                  <el-table-column  {...{props: nextColumn}}>
+                  <el-table-column {...{props: nextColumn}}>
                   </el-table-column>
                 );
             })
