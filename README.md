@@ -71,11 +71,11 @@ reload | 调用 current-change-async 事件并重置表格从第 1 页开始 |
     <el-input v-model="form.search" placeholder="请输入"></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button @click="handleSubmit">查询</el-button>
+    <el-button @click="submit">查询</el-button>
   </el-form-item>
 </el-form>
-<el-table-plus ref="table" @sort-change="handleSortChange" @filter-change="handleFilterChange"
-               :current-change-async="handleCurrentChangeAsync" :columns="tableColumns"
+<el-table-plus ref="table" @sort-change="sortChange" @filter-change="filterChange"
+               :current-change-async="currentChangeAsync" :columns="tableColumns"
                :page-size="20"></el-table-plus>
 </div>
 ```
@@ -124,7 +124,7 @@ export default {
           },
           renderBody: (h, {id}) => {
             return (
-              <el-button onClick={() => this.handleEdit(id)}>编辑</el-button>
+              <el-button onClick={() => this.edit(id)}>编辑</el-button>
             );
           }
         }
@@ -132,33 +132,33 @@ export default {
     };
   },
   methods: {
-    handleFilterChange(filters) {
+    filterChange(filters) {
       // TODO
     },
-    handleSortChange({column, prop, order}) {
+    sortChange({column, prop, order}) {
       // TODO
     },
-    handleEdit(id) {
+    edit(id) {
       // TODO
     },
-    handleSubmit() {
+    submit() {
       this.$refs.table.reload();
     },
-    async handleCurrentChangeAsync(currentPage, pageSize) {
+    async currentChangeAsync(currentPage, pageSize) {
       const res = await getYourAjaxData({
         ...this.form,
         page_now: currentPage,
         page_size: pageSize
-      })
+      });
 
       return {
         data: res.data.tableData,
         total: res.data.total
-      }
+      };
     }
   },
   mounted() {
-    this.handleSubmit();
+    this.submit();
   }
 }
 ```
