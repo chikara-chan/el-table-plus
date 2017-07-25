@@ -75,15 +75,13 @@ reload | 调用 current-change-async 事件并重置表格从第 1 页开始 |
   </el-form-item>
 </el-form>
 <el-table-plus ref="table" @sort-change="sortChange" @filter-change="filterChange"
-               :current-change-async="currentChangeAsync" :columns="tableColumns"
-               :page-size="20"></el-table-plus>
-</div>
+  :current-change-async="currentChangeAsync" :columns="tableColumns" :page-size="20">
+</el-table-plus>
 ```
 
 **js**
 
 ``` js
-// Notice: 在 vue 文件使用 jsx 语法需在 script 标签添加 type="text/jsx"
 export default {
   data() {
     return {
