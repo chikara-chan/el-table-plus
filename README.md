@@ -145,15 +145,15 @@ export default {
       this.$refs.table.reload();
     },
     async currentChangeAsync(currentPage, pageSize) {
-      const res = await getYourAjaxData({
+      const {data, total} = await getYourAjaxData({
         ...this.form,
         page_now: currentPage,
         page_size: pageSize
       });
 
       return {
-        data: res.data.tableData,
-        total: res.data.total
+        data,
+        total
       };
     }
   },
