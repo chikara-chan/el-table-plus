@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       form: {
-        search_text: ''
+        search: ''
       },
       tableColumns: [
         {
