@@ -11,6 +11,9 @@ export default {
     'page-size': {
       type: Number,
       default: 20
+    },
+    'search-options': {
+      type: Array
     }
   },
   data() {
@@ -29,19 +32,32 @@ export default {
       this.currentPage = currentPage;
       this.getData();
     },
-    async getData() {
+    async getData(params) {
       this.loading = true;
+      if (!params && this.$refs.search) {
+        params = this.$refs.search.form;
+      }
 
-      const {data, total} = await this.currentChangeAsync(this.currentPage, this.pageSize);
+      const {data, total} = await this.currentChangeAsync(this.currentPage, this.pageSize, params || {});
 
       this.data = data;
       this.total = total;
       this.loading = false;
+    },
+    handleSearchChange(params) {
+      this.$emit('search-change', params);
+    },
+    handleSearch(params) {
+      this.currentPage = 1;
+      this.$emit('search', params);
+      this.getData(params);
     }
   },
   render(h) {
     return (
       <div class="el-table-plus">
+        { this.searchOptions && <el-table-search ref="search" options={this.searchOptions} on-change={this.handleSearchChange} on-search={this.handleSearch} /> }
+        { this.$slots.title }
         <el-table
           data={this.data} v-loading={this.loading} on-filter-change={(...args) => this.$emit('filter-change', ...args)}
           on-sort-change={(...args) => this.$emit('sort-change', ...args)}>
