@@ -12,11 +12,10 @@ A high-level table component, integrating el-table and el-pagination of Element 
 
 ## Feature
 
-- 整合 el-table 与 el-pagination 的高阶组件
-- 通用列表分页查询业务需求快速成型
-- 用更简单的方式自定义表头(render-header)与自定义表体(render-body)
-- 组件内部维护数据源与分页
-- 仅支持远程排序
+- Configure columns in script.
+- Render custom head and body.
+- Manage data source innerly.
+- Control pagination easily.
 
 ## Quick Start
 
