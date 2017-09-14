@@ -30,37 +30,6 @@ import ElTablePlus from 'el-table-plus';
 Vue.use(ElTablePlus);
 ```
 
-## API
-
-### Table Attributes
-
-参数 | 说明 | 类型 | 默认值 | 返回类型
---- | --- | --- | --- | ---
-columns | 列属性，详见子章节 Table Attributes - column | Array[Object] | | |
-page-size | 每页大小 | Number | 20 | |
-current-change-async | 异步页码变化触发事件，需返回一个Object包含data和total两个key | Async Function(currentPage, pageSize) | | Object({data, total})
-
-#### Table Attributes - column
-
-同 Element 官方文档 Table-column Attributes，并新增以下属性
-
-参数 | 说明 | 类型
---- | --- | ---
-render-body | 自定义渲染表格体单元 | Function(h, row)
-
-### Table Events
-
-事件名 | 说明 | 参数
---- | --- | ---
-filter-change | 当表格的筛选条件发生变化的时候会触发该事件，参数的值是一个对象，对象的 key 是 column 的 columnKey，对应的 value 为用户选择的筛选条件的数组 | filters
-sort-change | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order }
-
-### Table Methods
-
-方法名 | 说明 | 参数
---- | --- | ---
-reload | 调用 current-change-async 事件并重置表格从第 1 页开始 |
-
 ## Example
 
 **html**
@@ -160,3 +129,40 @@ export default {
   }
 }
 ```
+
+## API
+
+### Table Attributes
+
+As same as Element UI [Table Attribute](http://element.eleme.io/#/en-US/component/table#table-attributes). Besides, add these attributes:
+
+Param | Type | Default | Description
+--- | --- | --- | ---
+columns | object[] | [] | See Table Attributes - column below.
+page-size | number | 20 |
+current-change-async | async function(currentPage, pageSize) | | Triger when page changes，require returning value `{ data: object[], total: number }`.
+
+#### Table Attributes - column
+
+As same as Element UI [Table-column Attribute](http://element.eleme.io/#/en-US/component/table#table-column-attributes). Besides, add these attributes:
+
+Param | Type | Default | Description
+--- | --- | --- | ---
+renderBody | function(h, row) | | Render custom body or expand body.
+
+### Table Events
+
+As same as Element UI [Table Events](http://element.eleme.io/#/en-US/component/table#table-events).
+
+### Table Methods
+
+Method | Param | Description
+--- | --- | ---
+reload | | Call `current-change-async` event, and reset page to 1.
+
+### Table Slots
+
+Name | Description
+--- | ---
+caption | The caption of table.
+actionBar | The action bar of table.
