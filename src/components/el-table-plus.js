@@ -1,14 +1,14 @@
 export default {
-  name: 'el-table-plus',
+  name: 'ElTablePlus',
   props: {
-    'current-change-async': {
+    currentChangeAsync: {
       type: Function
     },
-    'columns': {
+    columns: {
       type: Array,
       default: []
     },
-    'page-size': {
+    pageSize: {
       type: Number,
       default: 20
     }
@@ -20,6 +20,11 @@ export default {
       currentPage: 1,
       total: 0
     };
+  },
+  computed: {
+    hasPagination() {
+      return !!this.currentChangeAsync;
+    }
   },
   methods: {
     reload() {
@@ -42,9 +47,15 @@ export default {
   render(h) {
     return (
       <div class="el-table-plus">
-        <el-table
-          data={this.data} v-loading={this.loading} on-filter-change={(...args) => this.$emit('filter-change', ...args)}
-          on-sort-change={(...args) => this.$emit('sort-change', ...args)}>
+        {
+          (this.$slots.caption || this.$slots.actionBar) &&
+          <div class="el-table-plus__header">
+            <h1 class="el-table-plus__header__caption">{this.$slots.caption}</h1>
+            <div class="el-table-plus__header__action-bar">{this.$slots.actionBar}</div>
+          </div>
+        }
+        <el-table ref="table" data={this.data} v-loading={this.loading} {...{props: this.$attrs}}
+          {...{on: this._events}}>
           {
             this.columns.map(column => {
               const nextColumn = {
@@ -71,10 +82,13 @@ export default {
             })
           }
         </el-table>
-        <el-pagination
-          current-page={this.currentPage} page-size={this.pageSize} total={this.total}
-          on-current-change={this.handleCurrentChange} layout="total, prev, pager, next">
-        </el-pagination>
+        {
+          this.hasPagination &&
+          <el-pagination current-page={this.currentPage} page-size={this.pageSize}
+            total={this.total} on-current-change={this.handleCurrentChange}
+            layout="total, prev, pager, next">
+          </el-pagination>
+        }
       </div>
     );
   }
