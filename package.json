@@ -19,6 +19,10 @@
     "precommit": "npm run lint:fix",
     "prepublishOnly": "npm run clean && npm run build && npm run lint"
   },
+  "peerDependencies": {
+    "vue": "^2.4.0",
+    "element-ui": "^1.0.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",

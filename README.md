@@ -34,22 +34,41 @@ Vue.use(ElTablePlus);
 **html**
 
 ``` html
-<el-form :model="form" inline>
-  <el-form-item>
-    <el-input v-model="form.search" placeholder="请输入"></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button @click="submit">查询</el-button>
-  </el-form-item>
-</el-form>
-<el-table-plus ref="table" @sort-change="sortChange" @filter-change="filterChange"
-  :current-change-async="currentChangeAsync" :columns="tableColumns" :page-size="20">
-</el-table-plus>
+<div>
+  <el-form :model="form" ref="form" inline>
+    <el-form-item>
+      <el-input v-model="form.search" placeholder="请输入"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="submit">查询</el-button>
+    </el-form-item>
+  </el-form>
+  <el-table-plus ref="table" @sort-change="sortChange" @filter-change="filterChange"
+    @selection-change="selectionChange" :current-change-async="currentChangeAsync"
+    :columns="tableColumns" :page-size="20">
+    <template slot="caption">成员列表</template>
+    <template slot="actionBar">
+      <el-button @click="create" type="primary">创建成员</el-button> 
+    </template>
+  </el-table-plus>
+</div>
 ```
 
 **js**
 
 ``` js
+const mockAjax = ({ pageNum, pageSize, search }) => Promise.resolve({
+  data: Array.apply(null, { length: pageSize }).map((item, index) =>
+    ({
+      id: (pageNum - 1) * pageSize + index,
+      name: search || '张三',
+      type: index % 2 ? '人妖' : '非人妖',
+      gender: index % 2
+    })
+  ),
+  total: 100
+});
+
 export default {
   data() {
     return {
@@ -57,6 +76,17 @@ export default {
         search: ''
       },
       tableColumns: [
+        {
+          type: 'selection'
+        },
+        {
+          type: 'expand',
+          renderBody(h) { // eslint-disable-line
+            return (
+              <span>厉害了，我滴哥！</span>
+            );
+          }
+        },
         {
           label: '普通列',
           prop: 'id'
@@ -67,30 +97,30 @@ export default {
           sortable: 'custom'
         },
         {
-          label: '过滤项列',
-          prop: 'name',
-          filters: [{text: '有效', value: 1}, {text: '无效', value: 0}],
-          columnKey: 'columnKey'
+          label: '过滤列',
+          prop: 'type',
+          filters: [{ text: '人妖', value: 1 }, { text: '非人妖', value: 0 }],
+          columnKey: 'type'
         },
         {
           label: '格式化列',
-          prop: 'status',
-          formatter(status) {
+          prop: 'gender',
+          formatter(gender) {
             return {
-              1: '有效',
-              0: '无效',
-            }[status];
+              1: '男',
+              0: '女'
+            }[gender];
           }
         },
         {
-          renderHeader: (h) => {
+          renderHeader(h) { // eslint-disable-line
             return (
               <span>自定义列</span>
             );
           },
-          renderBody: (h, {id}) => {
+          renderBody: (h, { id }) => {
             return (
-              <el-button onClick={() => this.edit(id)}>编辑</el-button>
+              <el-button type="text" onClick={() => this.edit(id)}>编辑</el-button>
             );
           }
         }
@@ -99,22 +129,33 @@ export default {
   },
   methods: {
     filterChange(filters) {
-      // TODO
+      console.log(filters);
     },
     sortChange({column, prop, order}) {
-      // TODO
+      console.log(column, prop, order);
+    },
+    selectionChange(selections) {
+      console.log(selections);
     },
     edit(id) {
-      // TODO
+      console.log(id);
+    },
+    create() {
+      console.log('create');
     },
     submit() {
-      this.$refs.table.reload();
+      this.$refs.form.validate(async valid => {
+        if (!valid) {
+          return;
+        }
+        this.$refs.table.reload();
+      });
     },
     async currentChangeAsync(currentPage, pageSize) {
-      const {data, total} = await getYourAjaxData({
+      const { data, total } = await mockAjax({
         ...this.form,
-        page_now: currentPage,
-        page_size: pageSize
+        pageNum: currentPage,
+        pageSize: pageSize
       });
 
       return {
@@ -126,40 +167,44 @@ export default {
   mounted() {
     this.submit();
   }
-}
+};
 ```
 
 ## API
 
-### Table Attributes
+### Attributes
 
-As same as Element UI [Table Attribute](http://element.eleme.io/#/en-US/component/table#table-attributes). Besides, add these attributes:
+As same as Element UI [Table Attributes](http://element.eleme.io/#/en-US/component/table). Besides, add these attributes:
 
 Param | Type | Default | Description
 --- | --- | --- | ---
 columns | object[] | [] | See Table Attributes - column below.
 page-size | number | 20 |
 current-change-async | async function(currentPage, pageSize) | | Triger when page changes，require returning value `{ data: object[], total: number }`.
+pagination-align | String | 'center' | One of `'left'`, `'right'` and `'center'`.
 
-#### Table Attributes - column
+#### Attributes - column
 
-As same as Element UI [Table-column Attribute](http://element.eleme.io/#/en-US/component/table#table-column-attributes). Besides, add these attributes:
+As same as Element UI [Table-column Attributes](http://element.eleme.io/#/en-US/component/table). Besides, add these attributes:
 
 Param | Type | Default | Description
 --- | --- | --- | ---
 renderBody | function(h, row) | | Render custom body or expand body.
 
-### Table Events
+### Events
 
-As same as Element UI [Table Events](http://element.eleme.io/#/en-US/component/table#table-events).
+As same as Element UI [Table Events](http://element.eleme.io/#/en-US/component/table).
 
-### Table Methods
+### Methods
 
 Method | Param | Description
 --- | --- | ---
-reload | | Call `current-change-async` event, and reset page to 1.
+reload | | Call `current-change-async` event, and reload in first page.
+reloadCurrent | | Call `current-change-async` event, and reload in current page.
 
-### Table Slots
+### Slots
+
+As same as Element UI [Table-column Slots](http://element.eleme.io/#/en-US/component/table). Besides, add these slots:
 
 Name | Description
 --- | ---

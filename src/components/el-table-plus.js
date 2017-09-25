@@ -45,14 +45,16 @@ export default {
       this.data = [];
       this.loading = true;
       try {
-        const {data, total} = await this.currentChangeAsync(this.currentPage, this.pageSize);
+        const { data, total } = await this.currentChangeAsync(this.currentPage, this.pageSize);
 
         this.data = data;
         this.total = total;
       } catch (e) {
-        this.$emit('error', e);
+        console.error(e);
       }
-      this.loading = false;
+      this.$nextTick(() => {
+        this.loading = false;
+      });
     }
   },
   render(h) {
