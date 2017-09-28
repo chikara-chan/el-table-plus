@@ -57,117 +57,115 @@ Vue.use(ElTablePlus);
 **js**
 
 ``` js
-const mockAjax = ({ pageNum, pageSize, search }) => Promise.resolve({
-  data: Array.apply(null, { length: pageSize }).map((item, index) =>
-    ({
-      id: (pageNum - 1) * pageSize + index,
-      name: search || '张三',
-      type: index % 2 ? '人妖' : '非人妖',
-      gender: index % 2
-    })
-  ),
-  total: 100
-});
+  const mockAjax = ({ pageNum, pageSize, search }) => Promise.resolve({
+    data: Array.apply(null, { length: pageSize }).map((item, index) =>
+      ({
+        id: (pageNum - 1) * pageSize + index,
+        name: search || '张三',
+        type: index % 2 ? '有效' : '无效',
+        gender: index % 2
+      })
+    ),
+    total: 100
+  });
 
-export default {
-  data() {
-    return {
-      form: {
-        search: ''
-      },
-      tableColumns: [
-        {
-          type: 'selection'
-        },
-        {
-          type: 'expand',
-          renderBody(h) { // eslint-disable-line
-            return (
-              <span>厉害了，我滴哥！</span>
-            );
-          }
-        },
-        {
-          label: '普通列',
-          prop: 'id'
-        },
-        {
-          label: '排序列',
-          prop: 'name',
-          sortable: 'custom'
-        },
-        {
-          label: '过滤列',
-          prop: 'type',
-          filters: [{ text: '人妖', value: 1 }, { text: '非人妖', value: 0 }],
-          columnKey: 'type'
-        },
-        {
-          label: '格式化列',
-          prop: 'gender',
-          formatter(gender) {
-            return {
-              1: '男',
-              0: '女'
-            }[gender];
-          }
-        },
-        {
-          renderHeader(h) { // eslint-disable-line
-            return (
-              <span>自定义列</span>
-            );
-          },
-          renderBody: (h, { id }) => {
-            return (
-              <el-button type="text" onClick={() => this.edit(id)}>编辑</el-button>
-            );
-          }
-        }
-      ]
-    };
-  },
-  methods: {
-    filterChange(filters) {
-      console.log(filters);
-    },
-    sortChange({column, prop, order}) {
-      console.log(column, prop, order);
-    },
-    selectionChange(selections) {
-      console.log(selections);
-    },
-    edit(id) {
-      console.log(id);
-    },
-    create() {
-      console.log('create');
-    },
-    submit() {
-      this.$refs.form.validate(async valid => {
-        if (!valid) {
-          return;
-        }
-        this.$refs.table.reload();
-      });
-    },
-    async currentChangeAsync(currentPage, pageSize) {
-      const { data, total } = await mockAjax({
-        ...this.form,
-        pageNum: currentPage,
-        pageSize: pageSize
-      });
-
+  export default {
+    data() {
       return {
-        data,
-        total
+        form: {
+          search: ''
+        },
+        tableColumns: [
+          {
+            type: 'selection'
+          },
+          {
+            type: 'expand',
+            renderBody(h) { // eslint-disable-line
+              return (
+                <span>厉害了，我滴哥！</span>
+              );
+            }
+          },
+          {
+            label: '普通列',
+            prop: 'id'
+          },
+          {
+            label: '排序列',
+            prop: 'name',
+            sortable: 'custom'
+          },
+          {
+            label: '过滤列',
+            prop: 'type',
+            filters: [{ text: '有效', value: 1 }, { text: '无效', value: 0 }],
+            columnKey: 'type'
+          },
+          {
+            label: '格式化列',
+            prop: 'gender',
+            formatter(gender) {
+              return {
+                1: '男',
+                0: '女'
+              }[gender];
+            }
+          },
+          {
+            renderHeader(h) { // eslint-disable-line
+              return (
+                <span>自定义列</span>
+              );
+            },
+            renderBody: (h, { id }) => [
+              <el-button type="text" onClick={() => this.getDetail(id)}>详情</el-button>
+            ]
+          }
+        ]
       };
+    },
+    methods: {
+      filterChange(filters) {
+        console.log(filters);
+      },
+      sortChange({column, prop, order}) {
+        console.log(column, prop, order);
+      },
+      selectionChange(selections) {
+        console.log(selections);
+      },
+      getDetail(id) {
+        console.log(id);
+      },
+      create() {
+        console.log('create');
+      },
+      submit() {
+        this.$refs.form.validate(async valid => {
+          if (!valid) {
+            return;
+          }
+          this.$refs.table.reload();
+        });
+      },
+      async currentChangeAsync(currentPage, pageSize) {
+        const { data, total } = await mockAjax({
+          ...this.form,
+          pageNum: currentPage,
+          pageSize: pageSize
+        });
+
+        return {
+          data,
+          total
+        };
+      }
+    },
+    mounted() {
+      this.submit();
     }
-  },
-  mounted() {
-    this.submit();
-  }
-};
+  };
 ```
 
 ## API
