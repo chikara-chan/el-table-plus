@@ -14,7 +14,7 @@ export default {
     paginationAlign: {
       type: String,
       default: 'center',
-      validator: val => ['left', 'right', 'center'].includes(val)
+      validator: value => ['left', 'right', 'center'].includes(value)
     }
   },
   data() {
@@ -49,8 +49,8 @@ export default {
 
         this.data = data;
         this.total = total;
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err); // eslint-disable-line
       }
       this.$nextTick(() => {
         this.loading = false;

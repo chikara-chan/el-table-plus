@@ -1,0 +1,24 @@
+.el-table-plus__header {
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 36px;
+}
+.el-table-plus__header__caption {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
+.el-table-plus .el-pagination {
+  padding: 15px 0;
+}
+.el-table-plus .el-pagination--left {
+  text-align: left;
+}
+.el-table-plus .el-pagination--center {
+  text-align: center;
+}
+.el-table-plus .el-pagination--right {
+  text-align: right;
+}

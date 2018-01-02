@@ -25,6 +25,7 @@ $ npm install --save el-table-plus
 
 ``` js
 import ElTablePlus from 'el-table-plus';
+import 'el-table-plus/src/index.css';
 
 Vue.use(ElTablePlus);
 ```
