@@ -25,10 +25,14 @@ $ npm install --save el-table-plus
 
 ``` js
 import ElTablePlus from 'el-table-plus';
-import 'el-table-plus/src/index.css';
+import 'el-table-plus/lib/index.css';
 
 Vue.use(ElTablePlus);
 ```
+
+## Online Example
+
+[codesandbox](https://codesandbox.io/s/71wpwx701q)
 
 ## Example
 
@@ -46,7 +50,7 @@ Vue.use(ElTablePlus);
   </el-form>
   <el-table-plus ref="table" @sort-change="sortChange" @filter-change="filterChange"
     @selection-change="selectionChange" :current-change-async="currentChangeAsync"
-    :columns="tableColumns" :page-size="20">
+    :columns="tableColumns" :page-size="10">
     <template slot="caption">成员列表</template>
     <template slot="actionBar">
       <el-button @click="create" type="primary">创建成员</el-button> 
