@@ -1,6 +1,6 @@
 {
   "name": "el-table-plus",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A high-level table component, integrating el-table and el-pagination of Element UI.",
   "keywords": [
     "vue",
@@ -21,7 +21,7 @@
   },
   "peerDependencies": {
     "vue": "^2.4.0",
-    "element-ui": "^1.0.0"
+    "element-ui": "^1.0.0 || ^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
